@@ -26,7 +26,8 @@ const show = async (req, res) => {
         const movie = await Movie.findByPk(id, {
             include: [
                 {
-                    model: Review
+                    model: Review,
+                    as: "reviews",
                 },
             ],
         });
@@ -64,10 +65,12 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
     try {
         const { id } = req.params;
-        const movie = await Movie.findOne({ where: { id } });
+        const movie = await Movie.findByPk(id);
         if (!movie) {
             return res.status(404).json({ message: "Movie is not found" });
         }
+
+        await Review.destroy({ where: { movieId: id } });
 
         await movie.destroy();
         return res

@@ -18,6 +18,7 @@ const index = async (req, res) => {
 
 const store = async (req, res, next) => {
     try {
+        const user = req.user;
         const { title, description, rating, movieId } = req.body;
         const movie = await Movie.findByPk(movieId);
         if (!movie) {
@@ -30,6 +31,7 @@ const store = async (req, res, next) => {
             description,
             rating,
             movieId: movie.id,
+            userId: user.id,
         });
 
         await review.reload({
@@ -51,7 +53,10 @@ const update = async (req, res) => {
         const reviewId = req.params.id;
         const { title, description, rating } = req.body;
 
-        const review = await Review.findByPk(reviewId);
+        const review = await Review.findOne({
+            where: { id: reviewId },
+        });
+
         if (!review) {
             return res.status(404).json({ message: "Review not found" });
         }
