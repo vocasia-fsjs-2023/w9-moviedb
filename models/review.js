@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "movieId",
                 as: "movie", // Gunakan alias yang sesuai
             });
+
+            Review.belongsTo(models.User, {
+                foreignKey: "userId",
+                as: "user", // Gunakan alias yang sesuai
+            });
         }
     }
     Review.init(

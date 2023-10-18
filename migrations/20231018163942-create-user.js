@@ -5,40 +5,32 @@ const { DataTypes } = require("sequelize");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable("Reviews", {
+        await queryInterface.createTable("Users", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
-            title: {
-                allowNull: false,
+            name: {
                 type: DataTypes.STRING,
-            },
-            description: {
                 allowNull: false,
-                type: DataTypes.TEXT,
             },
-            rating: {
+            email: {
+                type: DataTypes.STRING,
                 allowNull: false,
-                type: DataTypes.INTEGER,
-            },
-            movieId: {
-                allowNull: false,
-                type: DataTypes.INTEGER,
-                references: {
-                    model: "Movies",
-                    key: "id",
+                unique: {
+                    args: true,
+                    msg: "Email address already in use!",
                 },
             },
-            userId: {
-                type: DataTypes.INTEGER,
+            password: {
+                type: DataTypes.STRING,
                 allowNull: false,
-                references: {
-                    model: "Users",
-                    key: "id",
-                },
+            },
+            isAdmin: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
             },
             createdAt: {
                 allowNull: false,
@@ -51,6 +43,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable("Reviews");
+        await queryInterface.dropTable("Users");
     },
 };
