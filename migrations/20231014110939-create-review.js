@@ -23,6 +23,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       rating: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         validate: {
           min: 0,
@@ -30,6 +31,7 @@ module.exports = {
         },
       },
       movieId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: {
