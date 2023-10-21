@@ -41,34 +41,35 @@ exports.retrieve = async (req, res) => {
 // Fungsi untuk membuat ulasan (review) baru
 exports.create = async (req, res, next) => {
     try {
-        const { title, description, rating, movieId } = req.body;
-        const movie = await Movie.findByPk(movieId);
-        if (!movie) {
-            return res.status(404).json({ message: "Film tidak ditemukan" });
-        }
-
-        const review = await Review.create({
-            title,
-            description,
-            rating,
-            movieId: movie.id,
-        });
-
-        await review.reload({
-            include: [
-                {
-                    model: Movie,
-                    as: "movie",
-                },
-            ],
-        });
-        return res.status(201).json(review);
+      const { title, description, rating, movieId } = req.body;
+      const movie = await Movie.findByPk(movieId);
+      if (!movie) {
+        return res.status(404).json({ message: "Film tidak ditemukan" });
+      }
+  
+      // Gunakan req.user untuk mendapatkan pengguna yang telah diotentikasi
+      const review = await Review.create({
+        title,
+        description,
+        rating,
+        movieId: movie.id,
+        userId: req.user.id, 
+      });
+  
+      await review.reload({
+        include: [
+          {
+            model: Movie,
+            as: "movie",
+          },
+        ],
+      });
+      return res.status(201).json(review);
     } catch (error) {
-        console.log(`Error: ${error}`);
-        res.status(500).json({ error: "Terjadi kesalahan saat membuat ulasan" });
+      console.error(`Error: ${error}`);
+      res.status(500).json({ error: "Terjadi kesalahan saat membuat ulasan" });
     }
-};
-
+  };
 // Fungsi untuk memperbarui ulasan (review)
 exports.update = async (req, res) => {
   try {

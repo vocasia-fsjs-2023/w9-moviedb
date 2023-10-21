@@ -1,17 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const reviewController = require('../controllers/reviewController');
+const reviewController = require("../controllers/reviewController");
+const { authUser, isAdmin } = require("../middlewares/auth.js");
 
-// Rute untuk mendapatkan semua review
-router.get('/', reviewController.retrieve);
+// Rute untuk mengambil daftar ulasan
+router.get("/", reviewController.retrieve);
 
-// Rute untuk membuat review baru
-router.post('/', reviewController.create);
+// Rute untuk membuat ulasan baru dengan middleware authUser
+router.post("/", authUser, reviewController.create);
 
-// Rute untuk memperbarui review
-router.put('/:id', reviewController.update);
+// Rute untuk memperbarui ulasan dengan middleware authUser dan isUserOwn
+router.put("/:id", authUser, reviewController.update);
 
-// Rute untuk menghapus review
-router.delete('/:id', reviewController.delete);
+// Rute untuk menghapus ulasan dengan middleware authUser dan isUserOwn
+router.delete("/:id", authUser, isAdmin, reviewController.delete);
 
 module.exports = router;

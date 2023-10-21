@@ -6,8 +6,13 @@ module.exports = (sequelize) => {
   class Review extends Model {
     static associate(models) {
       Review.belongsTo(models.Movie, {
-        foreignKey: 'movieId',
-        as: 'movie',
+        foreignKey: "movieId",
+        as: "movie",
+      });
+
+      Review.belongsTo(models.User, {
+        foreignKey: "userId",
+        as: "user",
       });
     }
   }
@@ -37,6 +42,10 @@ module.exports = (sequelize) => {
         },
       },
       movieId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

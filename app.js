@@ -1,18 +1,19 @@
-const express = require('express');
+const express = require("express");
+const movieRoutes = require("./routes/movieRoutes");
+const reviewRoutes = require("./routes/reviewRoutes"); 
+const userRoutes = require("./routes/userRoutes");
+require("dotenv").config();
+
 const app = express();
-const db = require('./models');
-const movieRoutes = require('./routes/movieRoutes');
-const reviewRoutes = require('./routes/reviewRoutes');
+const PORT = process.env.PORT || 3000; 
 
 app.use(express.json());
-app.use('/movie', movieRoutes);
-app.use('/review', reviewRoutes);
+app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 3000;
+app.use("/movie", movieRoutes);
+app.use("/review", reviewRoutes);
+app.use("/user", userRoutes); 
 
-db.sequelize.sync({ force: true }).then(() => {
-  // Menjalankan port
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

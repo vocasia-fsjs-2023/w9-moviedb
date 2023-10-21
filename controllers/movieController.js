@@ -26,9 +26,11 @@ exports.create = async (req, res) => {
       return res.status(400).json({ error: "Judul dan deskripsi diperlukan" });
     }
 
+    // Gunakan req.user untuk mendapatkan pengguna yang telah diotentikasi
     const movie = await new Movie({
       title,
-      description
+      description,
+      userId: req.user.id, // Gunakan ID pengguna yang telah diotentikasi
     }).save();
 
     res.status(201).json(movie);
@@ -37,7 +39,6 @@ exports.create = async (req, res) => {
     res.status(500).json({ error: "Terjadi kesalahan saat menambahkan movie" });
   }
 };
-
 // Fungsi untuk menampilkan detail film
 exports.show = async (req, res) => {
   try {

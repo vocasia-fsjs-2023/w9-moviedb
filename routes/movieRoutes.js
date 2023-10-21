@@ -1,26 +1,15 @@
-// Import Express
 const express = require('express');
 const movieController = require('../controllers/movieController');
+const { authUser, isAdmin } = require("../middlewares/auth.js");
 
-// Inisialisasi router Express
 const router = express.Router();
 
 // Rute untuk mendapatkan semua film
 router.get('/', movieController.retrieve);
-
-// Rute untuk membuat film baru
-router.post('/', movieController.create);
-
-// Rute untuk mendapatkan detail film berdasarkan ID
+router.post('/', authUser, movieController.create);
 router.get('/:id', movieController.show);
+router.patch('/:id', authUser, isAdmin, movieController.update);
+router.put('/:id', authUser, isAdmin, movieController.update);
+router.delete('/:id', authUser, isAdmin, movieController.delete);
 
-// Rute untuk mengupdate film berdasarkan ID
-router.patch('/:id', movieController.update);
-
-router.put('/:id', movieController.update);
-
-// Rute untuk menghapus film berdasarkan ID
-router.delete('/:id', movieController.delete);
-
-// Export router
 module.exports = router;

@@ -33,6 +33,16 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -43,6 +53,7 @@ module.exports = {
       },
     });
   },
+
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Reviews');
   },
