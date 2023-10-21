@@ -25,12 +25,10 @@ exports.create = async (req, res) => {
     if (!title || !description) {
       return res.status(400).json({ error: "Judul dan deskripsi diperlukan" });
     }
-
-    // Gunakan req.user untuk mendapatkan pengguna yang telah diotentikasi
     const movie = await new Movie({
       title,
       description,
-      userId: req.user.id, // Gunakan ID pengguna yang telah diotentikasi
+      userId: req.user.id, 
     }).save();
 
     res.status(201).json(movie);
@@ -62,8 +60,7 @@ exports.show = async (req, res) => {
       review.updatedAt = review.updatedAt.toJSON();
       return review;
     });
-
-    // Menambahkan ulasan ke dalam objek film
+    
     movie.reviews = formattedReviews;
 
     res.status(200).json(movie);

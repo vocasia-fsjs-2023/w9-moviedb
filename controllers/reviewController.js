@@ -46,8 +46,6 @@ exports.create = async (req, res, next) => {
       if (!movie) {
         return res.status(404).json({ message: "Film tidak ditemukan" });
       }
-  
-      // Gunakan req.user untuk mendapatkan pengguna yang telah diotentikasi
       const review = await Review.create({
         title,
         description,

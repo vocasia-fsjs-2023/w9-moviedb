@@ -21,7 +21,7 @@ module.exports = {
                 allowNull: false,
                 unique: {
                     args: true,
-                    msg: "Email address already in use!",
+                    msg: "Email Sudah di gunakan",
                 },
             },
             password: {

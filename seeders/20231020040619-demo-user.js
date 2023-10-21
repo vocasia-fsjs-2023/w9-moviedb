@@ -10,7 +10,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
-      // Tambahkan data seeder lainnya di sini
     ]);
   },
 
