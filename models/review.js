@@ -11,8 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       review.belongsTo(models.movie,{
-        as:"movies",foreignKey:"movieId"
-      })
+        as:"movies",
+        foreignKey:"movieId"
+      });
+
+      review.belongsTo(models.user, {
+        foreignKey: "userId",
+        as: "users",
+      });
     }
   }
   review.init({
@@ -26,8 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     rating: {
-      min: 0,
-      max: 5,
+      validate: {
+        min: 0,
+        max: 5,
+      },
       allowNull: false,
       type: DataTypes.INTEGER
     },
@@ -38,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowNull: false,
       type: DataTypes.INTEGER
-    }
+    },    
   }, {
     sequelize,
     modelName: 'review',

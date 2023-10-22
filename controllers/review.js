@@ -16,15 +16,20 @@ const index = async (req, res) => {
     }
 };
 
-const store = async (req, res, next) => {
+const store = async (req, res) => {
     try {
         const { title, description, rating, movieId } = req.body;
+        const Movie = await movie.findByPk(movieId);
+        if (!Movie) {
+          return res.status(404).json({ message: "Film tidak ditemukan" });
+        }
         // tolong buatkan review baru untuk movie ini dengan data yang dikirimkan dan tampilkan hasilnya beserta data movie-nya
         const reviews = await review.create({
             title,
             description,
             rating,
-            movieId
+            movieId: Movie.id,
+            userId: req.user.id
         });
 
         const reloadReview = await reviews.reload({

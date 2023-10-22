@@ -11,8 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       movie.hasMany(models.review,{
-        as:"reviews",foreignKey:"movieId"
-      })
+        as:"reviews",
+        foreignKey:"movieId",
+        onDelete: "CASCADE"
+      });
+      
     }
   }
   movie.init({
@@ -24,8 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       allowNull: false,
       type: DataTypes.TEXT
-    }
-  }, {
+    },
+  }, 
+  {
     sequelize,
     modelName: 'movie',
   });
