@@ -16,7 +16,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       rating: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        
       },
       movieId: {
         type: Sequelize.INTEGER

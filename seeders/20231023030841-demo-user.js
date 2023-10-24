@@ -1,25 +1,42 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('Movies', [
+      {
+        title: 'Ice Cold',
+        description: 'Dokumentari Kematian Mirna',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: 'Pamali',
+        description: 'Horror',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: 'Mencuri Raden saleh',
+        description: 'Pencurian Lukisan Raden Saleh',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: 'The Nun',
+        description: 'Horror',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: 'Dilan 1990',
+        description: 'Romance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ], {});
   },
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete('Movies', null, {});
   }
 };
