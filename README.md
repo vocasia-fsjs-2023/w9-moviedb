@@ -1,4 +1,4 @@
-# Movie DB
+# IH Movie DB (IMDB)
 
 Pada Tugas ini, kalian diminta untuk membuat server backend baru, dengan migration dilakukan secara manual menggunakan sequelize-cli dengan mengikuti arahan dari API-doc
 
