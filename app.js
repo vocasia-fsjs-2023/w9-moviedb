@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 
 const movieRoute = require("./routes/movieRoute");
 const reviewRoute = require("./routes/reviewRoute");
+const userRoute = require("./routes/userRoute")
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -11,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/movie", movieRoute);
 app.use("/review", reviewRoute);
-
+app.use(userRoute);
 
 app.get("/", (req, res) => {
     res.send("Server Todos ready!!!");

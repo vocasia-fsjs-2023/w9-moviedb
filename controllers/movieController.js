@@ -22,7 +22,7 @@ class Controller {
                 ],
             });
             if (!movie) {
-                return res.status(404).json({ error: 'Todo not found' });
+                return res.status(404).json({ error: 'Movie not found' });
             }
             res.status(200).json(movie);
 

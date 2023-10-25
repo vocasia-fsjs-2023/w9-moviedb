@@ -18,6 +18,7 @@ class Controller {
     };
     static async createReview(req, res, next) {
         try {
+            const user = req.authUser;
             const { title, description, rating, movieId } = req.body;
             const movie = await Movie.findByPk(movieId);
 
@@ -30,6 +31,7 @@ class Controller {
                 description,
                 rating,
                 movieId: movie.id,
+                userId: user?.id,
             });
 
             await review.reload({
