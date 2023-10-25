@@ -1,32 +1,29 @@
 const { User, Review } = require("../models");
 const { verifyToken } = require("../utils/jwt");
+const { ResponseError } = require("../utils/response-error");
 
 const authUser = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.split(" ")[1];
         if (!token) {
-            return res
-                .status(401)
-                .json({ message: "user tidak terauthentikasi" });
+            throw new ResponseError(401, "user tidak terauthentikasi");
         }
 
         const decoded = verifyToken(token);
         if (!decoded) {
-            return res
-                .status(401)
-                .json({ message: "user tidak terauthentikasi" });
+            throw new ResponseError(401, "user tidak terauthentikasi");
         }
 
         const user = await User.findOne({ where: { id: decoded?.id } });
         if (!user) {
-            return res.status(401).json({ message: "user tidak ditemukan" });
+            throw new ResponseError(404, "user tidak ditemukan");
         }
 
         req.user = user;
 
         next();
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    } catch (e) {
+        next(e);
     }
 };
 
@@ -40,8 +37,8 @@ const isAdmin = async (req, res, next) => {
         }
 
         next();
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    } catch (e) {
+        next(e);
     }
 };
 
@@ -61,8 +58,8 @@ const isUserOwn = async (req, res, next) => {
         }
 
         next();
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    } catch (e) {
+        next(e);
     }
 };
 

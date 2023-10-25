@@ -1,6 +1,7 @@
 const { Movie, Review } = require("../models");
+const { ResponseError } = require("../utils/response-error");
 
-const index = async (req, res) => {
+const index = async (req, res, next) => {
     try {
         const reviews = await Review.findAll({
             include: [
@@ -11,8 +12,8 @@ const index = async (req, res) => {
             ],
         });
         res.status(200).json({ review: reviews });
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    } catch (e) {
+        next(e);
     }
 };
 
@@ -22,7 +23,7 @@ const store = async (req, res, next) => {
         const { title, description, rating, movieId } = req.body;
         const movie = await Movie.findByPk(movieId);
         if (!movie) {
-            return res.status(404).json({ message: "Movie not found" });
+            throw new ResponseError(404, "Movie is not found");
         }
 
         // tolong buatkan review baru untuk movie ini dengan data yang dikirimkan dan tampilkan hasilnya beserta data movie-nya
@@ -43,12 +44,12 @@ const store = async (req, res, next) => {
             ],
         });
         return res.status(201).json(review);
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    } catch (e) {
+        next(e);
     }
 };
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
     try {
         const reviewId = req.params.id;
         const { title, description, rating } = req.body;
@@ -58,7 +59,7 @@ const update = async (req, res) => {
         });
 
         if (!review) {
-            return res.status(404).json({ message: "Review not found" });
+            throw new ResponseError(404, "Review not found");
         }
 
         review.title = title || review.title;
@@ -74,25 +75,25 @@ const update = async (req, res) => {
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
         });
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    } catch (e) {
+        next(e);
     }
 };
 
-const remove = async (req, res) => {
+const remove = async (req, res, next) => {
     try {
         const { id } = req.params;
         const review = await Review.findByPk(id);
         if (!review) {
-            return res.status(404).json({ message: "Review not found" });
+            throw new ResponseError(404, "Review not found");
         }
 
         await review.destroy();
         return res
             .status(200)
             .json({ message: `review dengan id ${review.id} telah dihapus` });
-    } catch (error) {
-        console.log(`Error: ${error}`);
+    } catch (e) {
+        next(e);
     }
 };
 module.exports = { index, store, update, remove };
