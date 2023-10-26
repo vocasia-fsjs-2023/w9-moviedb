@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "movieId",
         as: "movies", 
     });
+
+    Review.belongsTo(models.User, {
+      foreignKey: "userId",
+      as: "user", 
+    });
     }
   }
   Review.init({
@@ -44,8 +49,13 @@ module.exports = (sequelize, DataTypes) => {
     movieId: {
       type: DataTypes.INTEGER,
       allowNull: false, // tidak boleh null
+      references: {
+        model: "Movies",
+        key: "id",
+    }
     },
-  },
+    userId: DataTypes.INTEGER,
+    },
     {
       sequelize,
       modelName: "Review",

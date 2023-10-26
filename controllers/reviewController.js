@@ -5,12 +5,15 @@ class Controller {
     //POST REVIEW
     static async postReview(req, res, next) {
         try {
-          const { title, description, rating, movieId } = req.body;
+          const { title, description, rating, movieId, } = req.body;
+          const user = req.authUser;
           const movie = await Movie.findByPk(movieId);
           if (!movie){
             return res.status(404).json({ message: "Movie not found" });
           }
-            const reviews = await Review.create({ title, description, rating, movieId: movie.id });
+            const reviews = await Review.create({ 
+              title, description, rating, movieId: movie.id, userId: user?.id, 
+            });
             await reviews.reload ({
                 include: [
                     {
@@ -21,7 +24,7 @@ class Controller {
             });
             return res.status(201).json(reviews);
         } catch (error) {
-          res.status(500).json({ error: 'Internal Server Error' });
+          console.log(`Error: ${error}`);
         }
       };
 
